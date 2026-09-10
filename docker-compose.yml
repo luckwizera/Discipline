@@ -1,15 +1,15 @@
 services:
-  ecard:
+  discipline:
     build: .
     ports:
       - "3000:3000"
     env_file:
       - .env
     environment:
-      DB_FILE: /data/ecard.sqlite
+      DB_FILE: /data/discipline.sqlite
     volumes:
-      - ecard-data:/data
+      - discipline-data:/data
     restart: unless-stopped
 
 volumes:
-  ecard-data:
+  discipline-data:
