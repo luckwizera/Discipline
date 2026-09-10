@@ -6,7 +6,7 @@ import os from 'node:os';
 import path from 'node:path';
 import fs from 'node:fs';
 
-const dbFile = path.join(os.tmpdir(), `ecard-test-${process.pid}-${Date.now()}.sqlite`);
+const dbFile = path.join(os.tmpdir(), `discipline-test-${process.pid}-${Date.now()}.sqlite`);
 process.env.JWT_SECRET = 'test-secret-that-is-at-least-32-characters-long';
 process.env.DB_FILE = dbFile;
 process.env.NODE_ENV = 'test';
@@ -39,6 +39,14 @@ test('health endpoint reports database health', async () => {
   const response = await request(app).get('/api/health');
   assert.equal(response.status, 200);
   assert.deepEqual(response.body, { status: 'ok', database: 'ok' });
+});
+
+test('API responses include baseline security headers', async () => {
+  const response = await request(app).get('/api/health');
+  assert.equal(response.headers['x-content-type-options'], 'nosniff');
+  assert.equal(response.headers['x-frame-options'], 'DENY');
+  assert.equal(response.headers['referrer-policy'], 'no-referrer');
+  assert.equal(response.headers['permissions-policy'], 'camera=(), microphone=(), geolocation=()');
 });
 
 test('login validation rejects malformed requests', async () => {
