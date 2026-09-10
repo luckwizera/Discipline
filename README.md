@@ -1,6 +1,6 @@
-# E-Card — School Conduct & Permission Management
+# Discipline — School Conduct & Permission Management
 
-E-Card is a school operations application for recording student appreciation and sanction marks, maintaining transparent conduct history, notifying parents, issuing campus-exit permission cards, and generating periodic reports.
+Discipline is a school operations application for recording student appreciation and sanction marks, maintaining transparent conduct history, notifying parents, issuing campus-exit permission cards, and generating periodic reports.
 
 ## Product
 
@@ -58,7 +58,7 @@ npm install
 cp .env.example .env
 ```
 
-Set a random `JWT_SECRET` of at least 32 characters before starting the server.
+Set a unique random `JWT_SECRET` of at least 32 characters before starting the server.
 
 ## Create the first administrator
 
@@ -82,7 +82,7 @@ The default port is `3000`. Open the application through the Express server, not
 npm run dev
 ```
 
-The existing static frontend remains available for UI exploration, while the Express server provides the production authentication and API layer.
+The static frontend remains available for UI exploration, while the Express server provides the production authentication and API layer.
 
 ## Quality checks
 
@@ -135,10 +135,21 @@ The backend seeds sample students only when the database is empty. The records u
 
 Student records are sensitive. Production deployments should use HTTPS, strong secrets stored outside source control, least-privilege access, database backups, retention/deletion policies, audit monitoring, rate limiting at the edge, and school-approved privacy procedures.
 
+See [`SECURITY.md`](SECURITY.md) for the security policy.
+
 ## Docker
 
 ```bash
 docker compose up --build
 ```
 
-Persist the `ecard-data` volume. Supply `.env` through the deployment environment and do not commit it.
+Persist the `discipline-data` volume. Supply `.env` through the deployment environment and do not commit it.
+
+## Project documentation
+
+- [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — system boundaries and deployment model
+- [`docs/API.md`](docs/API.md) — API behavior and authorization
+- [`docs/openapi.yaml`](docs/openapi.yaml) — OpenAPI contract
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — development workflow
+- [`SECURITY.md`](SECURITY.md) — vulnerability reporting and deployment expectations
+- [`CHANGELOG.md`](CHANGELOG.md) — release history
