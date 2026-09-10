@@ -8,7 +8,7 @@ router.post('/test', auth, admin, validate(notificationSchema), async (req, res,
   if (!process.env.SMTP_HOST) return res.status(503).json({ error: 'SMTP is not configured', code: 'SMTP_NOT_CONFIGURED' });
   try {
     const transporter = nodemailer.createTransport({ host: process.env.SMTP_HOST, port: Number(process.env.SMTP_PORT || 587), secure: process.env.SMTP_SECURE === 'true', auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } });
-    await transporter.sendMail({ from: process.env.SMTP_FROM, to: req.body.to, subject: 'E-Card parent update', text: req.body.message });
+    await transporter.sendMail({ from: process.env.SMTP_FROM, to: req.body.to, subject: 'Discipline parent update', text: req.body.message });
     res.json({ ok: true });
   } catch (error) { next(error); }
 });
