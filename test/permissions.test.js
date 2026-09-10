@@ -28,7 +28,7 @@ before(async () => {
 
 after(() => {
   db.close();
-  try { fs.unlinkSync(dbFile); } catch {}
+  try { fs.unlinkSync(dbFile); } catch { /* temporary database may already be removed */ }
 });
 
 test('permission creation rejects unknown student', async () => {
