@@ -16,6 +16,7 @@ Discipline is a school operations application for recording student appreciation
 - Zod request validation
 - Audit-friendly event history
 - Health endpoint for deployment monitoring
+- Protected operational metrics endpoint
 
 ## Architecture
 
@@ -51,10 +52,14 @@ External services: SMTP for parent email; PDFKit for reports.
 - Node.js 20+
 - npm
 
+Use the repository's `.nvmrc` to select the tested Node.js major version.
+
 ## Installation
 
+For a reproducible install from the committed lockfile:
+
 ```bash
-npm install
+npm ci
 cp .env.example .env
 ```
 
@@ -86,13 +91,17 @@ The static frontend remains available for UI exploration, while the Express serv
 
 ## Quality checks
 
+Run the same checks used by CI before opening a pull request:
+
 ```bash
+npm ci
+npm audit --audit-level=high
 npm run lint
 npm test
 npm run build
 ```
 
-GitHub Actions runs these checks on pushes and pull requests.
+Tests enforce a minimum 70% server-side line coverage. GitHub Actions runs installation, dependency auditing, linting, tests, coverage, build verification, CodeQL, and dependency review on the appropriate changes.
 
 ## Environment variables
 
@@ -126,6 +135,7 @@ See [`docs/API.md`](docs/API.md) for request contracts and authorization rules.
 - `PATCH /api/permissions/:code` — approve or reject a card
 - `GET /api/reports/:period.pdf` — monthly, termly, or annual PDF
 - `POST /api/notifications/test` — test configured SMTP delivery
+- `GET /api/metrics` — protected operational request metrics for administrators
 
 ## Demo data
 
@@ -135,7 +145,7 @@ The backend seeds sample students only when the database is empty. The records u
 
 Student records are sensitive. Production deployments should use HTTPS, strong secrets stored outside source control, least-privilege access, database backups, retention/deletion policies, audit monitoring, rate limiting at the edge, and school-approved privacy procedures.
 
-See [`SECURITY.md`](SECURITY.md) for the security policy.
+The API also sends baseline browser security headers and disables caching for API responses. See [`SECURITY.md`](SECURITY.md) for the security policy.
 
 ## Docker
 
@@ -150,6 +160,8 @@ Persist the `discipline-data` volume. Supply `.env` through the deployment envir
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — system boundaries and deployment model
 - [`docs/API.md`](docs/API.md) — API behavior and authorization
 - [`docs/openapi.yaml`](docs/openapi.yaml) — OpenAPI contract
-- [`CONTRIBUTING.md`](CONTRIBUTING.md) — development workflow
+- [`docs/DEVELOPMENT.md`](docs/DEVELOPMENT.md) — development workflow
+- [`docs/DEPENDENCIES.md`](docs/DEPENDENCIES.md) — dependency maintenance
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution workflow
 - [`SECURITY.md`](SECURITY.md) — vulnerability reporting and deployment expectations
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
