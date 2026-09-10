@@ -1,6 +1,8 @@
-# E-Card API
+# Discipline API
 
-All protected endpoints use the HTTP-only `ecard` cookie created by login.
+The Discipline API powers school conduct records, student history, permission cards, reporting, and parent-notification workflows.
+
+All protected endpoints use the HTTP-only `ecard` authentication cookie created by login. The cookie name is retained for compatibility with existing deployments.
 
 ## Authentication
 
@@ -10,7 +12,7 @@ All protected endpoints use the HTTP-only `ecard` cookie created by login.
 {"email":"admin@example.com","password":"..."}
 ```
 
-`POST /api/auth/logout` clears the cookie. `GET /api/auth/me` returns the authenticated identity.
+`POST /api/auth/logout` clears the authentication cookie. `GET /api/auth/me` returns the authenticated identity.
 
 ## Conduct
 
@@ -47,3 +49,7 @@ Appreciation increases the balance; sanction decreases it but never below zero. 
 ## Health
 
 `GET /api/health` is public and returns database connectivity status for monitoring.
+
+## Contract
+
+The machine-readable API definition is maintained in [`docs/openapi.yaml`](openapi.yaml).
