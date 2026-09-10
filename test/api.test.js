@@ -49,6 +49,15 @@ test('API responses include baseline security headers', async () => {
   assert.equal(response.headers['permissions-policy'], 'camera=(), microphone=(), geolocation=()');
 });
 
+test('login sets secure cookie attributes', async () => {
+  const response = await request(app).post('/api/auth/login').send({ email: 'admin@test.local', password: 'AdminPassword123!' });
+  assert.equal(response.status, 200);
+  const cookie = response.headers['set-cookie'].find((value) => value.startsWith('ecard='));
+  assert.match(cookie, /HttpOnly/i);
+  assert.match(cookie, /SameSite=Lax/i);
+  assert.match(cookie, /Max-Age=28800/i);
+});
+
 test('login validation rejects malformed requests', async () => {
   const response = await request(app).post('/api/auth/login').send({ email: 'not-an-email', password: 'short' });
   assert.equal(response.status, 400);
@@ -73,7 +82,7 @@ test('logout clears the authentication cookie', async () => {
   const response = await request(app).post('/api/auth/logout').set('Cookie', adminCookie);
   assert.equal(response.status, 200);
   assert.deepEqual(response.body, { ok: true });
-  assert.match(response.headers['set-cookie'].join(';'), /ecard=;/);
+  assert.deepEqual(response.headers['set-cookie'].join(';'), 'ecard=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT');
 });
 
 test('protected endpoints reject missing credentials', async () => {
