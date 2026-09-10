@@ -1,6 +1,6 @@
 {
   "name": "discipline-school-management",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -22,7 +22,7 @@
     "dotenv": "17.2.1",
     "express": "5.1.0",
     "jsonwebtoken": "9.0.2",
-    "nodemailer": "7.0.5",
+    "nodemailer": "10.0.3",
     "pdfkit": "0.17.1",
     "zod": "3.25.67"
   },
@@ -33,7 +33,7 @@
     "globals": "16.3.0",
     "prettier": "3.6.2",
     "supertest": "7.1.4",
-    "vite": "7.1.5"
+    "vite": "7.3.6"
   },
   "engines": { "node": ">=20" }
 }
