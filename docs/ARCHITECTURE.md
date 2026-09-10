@@ -1,6 +1,6 @@
-# Discipline Architecture
+# Discipline Track Architecture
 
-Discipline is split into a browser UI and an Express API. The API owns authentication, authorization, validation, persistence, reporting, and notification delivery.
+Discipline Track is split into a browser UI and an Express API. The API owns authentication, authorization, validation, persistence, reporting, and notification delivery.
 
 ## Boundaries
 
@@ -15,11 +15,11 @@ Discipline is split into a browser UI and an Express API. The API owns authentic
 
 ## Data model
 
-`students` stores current conduct balance and parent contact fields. `events` records each appreciation/sanction as an immutable historical event. `permissions` stores digital exit cards and their approval state. `users` maps authenticated accounts to roles and, for student accounts, a student ID.
+`students` stores current conduct balance and parent contact fields. `events` records each appreciation/sanction as a historical event. `permissions` stores digital exit cards and their approval state. `users` maps authenticated accounts to roles and, for student accounts, a student ID.
 
 ## Security model
 
-The browser receives an HTTP-only authentication cookie. Every protected API route verifies the signed token. Administration routes additionally require the `admin` role. Student history and permission queries are restricted to the authenticated student's ID. Request bodies are validated before database operations.
+The browser receives an HTTP-only authentication cookie. Every protected API route verifies the signed token. Administration routes additionally require the `admin` role. Student history and permission queries are restricted to the authenticated student's ID. Request bodies are validated before database operations. API responses use baseline browser security headers and no-store caching.
 
 ## Deployment
 
@@ -27,4 +27,4 @@ For a small school deployment, the included Docker image can run behind an HTTPS
 
 ## Operational requirements
 
-Back up the database, monitor `/api/health`, rotate secrets according to school policy, retain audit records according to applicable requirements, and restrict administrator accounts using least privilege.
+Back up the database, monitor `/api/health`, review protected operational metrics, rotate secrets according to school policy, retain audit records according to applicable requirements, and restrict administrator accounts using least privilege.
