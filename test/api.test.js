@@ -47,9 +47,16 @@ test('login rejects invalid credentials', async () => {
   assert.equal(response.body.code, 'LOGIN_FAILED');
 });
 
-test('students endpoint requires authentication', async () => {
+test('protected endpoints reject missing credentials', async () => {
   const response = await request(app).get('/api/students');
   assert.equal(response.status, 401);
+  assert.equal(response.body.code, 'AUTH_REQUIRED');
+});
+
+test('protected endpoints reject malformed bearer tokens', async () => {
+  const response = await request(app).get('/api/students').set('Authorization', 'Bearer definitely-not-a-jwt');
+  assert.equal(response.status, 401);
+  assert.equal(response.body.code, 'AUTH_INVALID');
 });
 
 test('student cannot access administration student list', async () => {
@@ -62,6 +69,17 @@ test('admin can list students', async () => {
   const response = await request(app).get('/api/students').set('Cookie', adminCookie);
   assert.equal(response.status, 200);
   assert.equal(response.body.length, 4);
+});
+
+test('metrics are protected and record API responses', async () => {
+  const forbidden = await request(app).get('/api/metrics').set('Cookie', studentCookie);
+  assert.equal(forbidden.status, 403);
+  const response = await request(app).get('/api/metrics').set('Cookie', adminCookie);
+  assert.equal(response.status, 200);
+  assert.equal(typeof response.body.uptimeSeconds, 'number');
+  assert.equal(typeof response.body.totalRequests, 'number');
+  assert.equal(response.body.totalRequests > 0, true);
+  assert.equal(response.body.byStatus['200'] > 0, true);
 });
 
 test('appreciation increases marks and creates history', async () => {
