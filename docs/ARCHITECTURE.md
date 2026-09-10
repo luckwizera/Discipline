@@ -1,6 +1,6 @@
-# Architecture
+# Discipline Architecture
 
-E-Card is split into a browser UI and an Express API. The API owns authentication, authorization, validation, persistence, reporting, and notification delivery.
+Discipline is split into a browser UI and an Express API. The API owns authentication, authorization, validation, persistence, reporting, and notification delivery.
 
 ## Boundaries
 
