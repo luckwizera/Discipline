@@ -59,6 +59,14 @@ test('protected endpoints reject malformed bearer tokens', async () => {
   assert.equal(response.body.code, 'AUTH_INVALID');
 });
 
+test('protected endpoints accept valid bearer tokens', async () => {
+  const { signUser } = await import('../server/auth.js');
+  const token = signUser({ id: 1, role: 'admin', student_id: null });
+  const response = await request(app).get('/api/students').set('Authorization', `Bearer ${token}`);
+  assert.equal(response.status, 200);
+  assert.equal(Array.isArray(response.body), true);
+});
+
 test('student cannot access administration student list', async () => {
   const response = await request(app).get('/api/students').set('Cookie', studentCookie);
   assert.equal(response.status, 403);
