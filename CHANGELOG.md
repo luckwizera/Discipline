@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0
+
+- Renamed the product and documentation from E-Card to Discipline.
+- Updated the package metadata to `discipline-school-management`.
+- Updated frontend metadata, title, and visible branding.
+- Renamed the default SQLite path and Docker service/volume to Discipline names.
+- Updated README, backend documentation, architecture documentation, API guide, and OpenAPI metadata.
+- Preserved the existing `ecard` authentication cookie name for deployment compatibility.
+
 ## 1.1.0
 
 - Added modular Express backend architecture.
