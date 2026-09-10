@@ -41,10 +41,31 @@ test('health endpoint reports database health', async () => {
   assert.deepEqual(response.body, { status: 'ok', database: 'ok' });
 });
 
+test('login validation rejects malformed requests', async () => {
+  const response = await request(app).post('/api/auth/login').send({ email: 'not-an-email', password: 'short' });
+  assert.equal(response.status, 400);
+  assert.equal(response.body.code, 'VALIDATION_ERROR');
+});
+
 test('login rejects invalid credentials', async () => {
   const response = await request(app).post('/api/auth/login').send({ email: 'admin@test.local', password: 'wrong-password' });
   assert.equal(response.status, 401);
   assert.equal(response.body.code, 'LOGIN_FAILED');
+});
+
+test('authenticated user can read their session', async () => {
+  const response = await request(app).get('/api/auth/me').set('Cookie', adminCookie);
+  assert.equal(response.status, 200);
+  assert.equal(response.body.role, 'admin');
+  assert.equal(response.body.email, undefined);
+  assert.equal(response.body.id > 0, true);
+});
+
+test('logout clears the authentication cookie', async () => {
+  const response = await request(app).post('/api/auth/logout').set('Cookie', adminCookie);
+  assert.equal(response.status, 200);
+  assert.deepEqual(response.body, { ok: true });
+  assert.match(response.headers['set-cookie'].join(';'), /ecard=;/);
 });
 
 test('protected endpoints reject missing credentials', async () => {
