@@ -27,7 +27,7 @@ before(async () => {
 
 after(() => {
   db.close();
-  try { fs.unlinkSync(dbFile); } catch {}
+  try { fs.unlinkSync(dbFile); } catch { /* temporary database may already be removed */ }
 });
 
 test('notification test endpoint reports missing SMTP configuration', async () => {
