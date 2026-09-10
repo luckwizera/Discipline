@@ -1,11 +1,11 @@
-# Discipline backend
+# Discipline Track backend
 
-The backend provides authenticated school administration and student APIs, SQLite persistence, conduct audit history, permission-card workflows, PDF report generation, and optional SMTP parent notifications.
+The backend provides authenticated school administration and student APIs, SQLite persistence, conduct history, permission-card workflows, PDF report generation, and optional SMTP parent notifications.
 
 ## Run
 
 1. Install Node.js 20+.
-2. Run `npm install`.
+2. Run `npm ci`.
 3. Copy `.env.example` to `.env` and set a strong `JWT_SECRET`.
 4. Run `npm start`.
 
@@ -17,12 +17,13 @@ The backend provides authenticated school administration and student APIs, SQLit
 - Configure SMTP credentials for parent notifications when email delivery is enabled.
 - Create administrator and student users using the deployment's secure provisioning process.
 - Restrict access to student records according to school policy and applicable privacy requirements.
-- Monitor `GET /api/health` and back up the database regularly.
+- Monitor `GET /api/health` and protected `GET /api/metrics`.
+- Back up the database regularly.
 
 ## Main modules
 
-- `app.js` — middleware and route composition
-- `auth.js` — authentication and role checks
+- `app.js` — middleware, security headers, metrics, and route composition
+- `auth.js` — JWT authentication and role checks
 - `db.js` — SQLite schema and persistence
 - `validation.js` — request validation
 - `routes/` — feature-specific API routes
