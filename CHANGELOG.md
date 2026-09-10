@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+- Added a pull-request dependency review gate that blocks high-severity dependency findings.
+- Added automated Dependabot maintenance for npm and GitHub Actions dependencies.
+- Added baseline browser security response headers and protected operational request metrics.
+- Expanded API tests to cover security headers and removed legacy E-Card test naming.
+- Updated setup and CI guidance to use reproducible `npm ci` installs and the 70% coverage gate.
+
 ## 1.2.0
 
 - Renamed the product and documentation from E-Card to Discipline.
