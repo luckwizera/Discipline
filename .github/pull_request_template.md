@@ -1,15 +1,19 @@
 ## Summary
 
-<!-- What changed and why? -->
+<!-- What changed, and why? -->
 
-## Verification
+## Testing
 
+- [ ] `npm ci`
+- [ ] `npm audit --audit-level=high`
 - [ ] `npm run lint`
 - [ ] `npm test`
 - [ ] `npm run build`
 
-## Privacy & security
+## Checklist
 
-- [ ] No real student/parent data or secrets were added.
-- [ ] Authorization behavior was reviewed for changed endpoints.
-- [ ] Environment/configuration docs were updated if needed.
+- [ ] Change is focused and reviewable
+- [ ] Tests were added or updated when behavior changed
+- [ ] Documentation was updated when needed
+- [ ] No secrets, credentials, or local database files are committed
+- [ ] `package.json` and `package-lock.json` stay in sync when dependencies change
