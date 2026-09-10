@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: E-Card API
-  version: 1.1.0
+  title: Discipline API
+  version: 1.2.0
   description: School conduct, permission card, reporting, and parent notification API.
 servers:
   - url: /api
