@@ -1,4 +1,4 @@
-# E-Card backend
+# Discipline backend
 
 The backend provides authenticated school administration and student APIs, SQLite persistence, conduct audit history, permission-card workflows, PDF report generation, and optional SMTP parent notifications.
 
@@ -11,9 +11,19 @@ The backend provides authenticated school administration and student APIs, SQLit
 
 ## Production requirements
 
-- Replace the development JWT secret.
-- Configure a managed database or durable SQLite volume.
+- Use a unique production JWT secret with at least 32 characters.
+- Configure a durable SQLite volume or move to a managed relational database for larger deployments.
 - Configure HTTPS at the reverse proxy.
-- Configure SMTP credentials for parent notifications.
+- Configure SMTP credentials for parent notifications when email delivery is enabled.
 - Create administrator and student users using the deployment's secure provisioning process.
-- Restrict access to student records according to school policy and applicable privacy law.
+- Restrict access to student records according to school policy and applicable privacy requirements.
+- Monitor `GET /api/health` and back up the database regularly.
+
+## Main modules
+
+- `app.js` — middleware and route composition
+- `auth.js` — authentication and role checks
+- `db.js` — SQLite schema and persistence
+- `validation.js` — request validation
+- `routes/` — feature-specific API routes
+- `logger.js` — structured request/error logging
