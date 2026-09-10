@@ -1,34 +1,37 @@
-# Discipline — School Conduct & Permission Management
+# Discipline Track — School Conduct & Permission Management
 
-Discipline is a school operations application for recording student appreciation and sanction marks, maintaining transparent conduct history, notifying parents, issuing campus-exit permission cards, and generating periodic reports.
+**Discipline Track** is a school operations application for recording student appreciation and sanction marks, maintaining transparent conduct history, notifying parents, issuing campus-exit permission cards, and generating periodic reports.
 
-## Product
+> A practical, auditable starting point for schools that want one place to manage student conduct workflows and permission requests.
 
-- Administration dashboard with student monitoring
-- Student portal with personal conduct history
-- Appreciation and sanction workflows
-- Parent-notification integration point via SMTP
+## Highlights
+
+- Administration dashboard for student monitoring and conduct management
+- Student portal for personal conduct history and permission cards
+- Appreciation and sanction workflows with validation
+- Parent-notification integration through SMTP
 - Digital permission cards with approval/rejection workflow
 - Monthly, termly, and annual PDF reports
-- Responsive modern frontend with production login overlay
-- Persistent SQLite backend
-- Role-based access control and HTTP-only authentication cookie
-- Zod request validation
-- Audit-friendly event history
+- Persistent SQLite backend with demo data for an empty database
+- JWT-based role authentication with an HTTP-only cookie
+- Role-based access control for administration and student records
+- Zod request validation at the API boundary
+- Structured API request/error logging and protected operational metrics
 - Health endpoint for deployment monitoring
-- Protected operational metrics endpoint
+- Baseline browser security headers and API no-store caching policy
+- Docker support for repeatable deployment
 
 ## Architecture
 
 ```text
-Browser
+Browser UI
   ├── Login
-  ├── Administration panel
+  ├── Administration dashboard
   └── Student portal
           │
           ▼
      Express API
-     ├── Auth / RBAC
+     ├── Authentication / RBAC
      ├── Validation
      ├── Student routes
      ├── Conduct routes
@@ -38,14 +41,15 @@ Browser
           │
           ▼
        SQLite DB
-          │
           ├── Users
           ├── Students
-          ├── Events
+          ├── Conduct events
           └── Permissions
 
 External services: SMTP for parent email; PDFKit for reports.
 ```
+
+See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for system boundaries and deployment guidance.
 
 ## Requirements
 
@@ -56,7 +60,7 @@ Use the repository's `.nvmrc` to select the tested Node.js major version.
 
 ## Installation
 
-For a reproducible install from the committed lockfile:
+Use the committed lockfile for a reproducible setup:
 
 ```bash
 npm ci
@@ -71,23 +75,23 @@ Set a unique random `JWT_SECRET` of at least 32 characters before starting the s
 npm run create-admin
 ```
 
-The command prompts for the administrator's name, email, and password. Credentials are hashed with bcrypt and are not written to source control.
+The command prompts for the administrator's name, email, and password. Passwords are hashed with bcrypt and credentials are not written to source control.
 
-## Run
+## Run locally
+
+Start the production-style Express server:
 
 ```bash
 npm start
 ```
 
-The default port is `3000`. Open the application through the Express server, not directly as a file, when using production authentication.
+The default port is `3000`. Open the application through the Express server when using production authentication.
 
-## Development UI
+For frontend development with Vite:
 
 ```bash
 npm run dev
 ```
-
-The static frontend remains available for UI exploration, while the Express server provides the production authentication and API layer.
 
 ## Quality checks
 
@@ -101,7 +105,7 @@ npm test
 npm run build
 ```
 
-Tests enforce a minimum 70% server-side line coverage. GitHub Actions runs installation, dependency auditing, linting, tests, coverage, build verification, CodeQL, and dependency review on the appropriate changes.
+The test command enforces a minimum **70% server-side line coverage**. GitHub Actions also runs dependency review and CodeQL on the appropriate changes.
 
 ## Environment variables
 
@@ -118,6 +122,8 @@ Tests enforce a minimum 70% server-side line coverage. GitHub Actions runs insta
 | `SMTP_USER` | SMTP username |
 | `SMTP_PASS` | SMTP password |
 | `SMTP_FROM` | Verified sender address |
+
+Never commit `.env` or real school credentials.
 
 ## API overview
 
@@ -137,6 +143,8 @@ See [`docs/API.md`](docs/API.md) for request contracts and authorization rules.
 - `POST /api/notifications/test` — test configured SMTP delivery
 - `GET /api/metrics` — protected operational request metrics for administrators
 
+The machine-readable contract is maintained in [`docs/openapi.yaml`](docs/openapi.yaml).
+
 ## Demo data
 
 The backend seeds sample students only when the database is empty. The records use synthetic parent contact information. Real school data should be provisioned through approved operational processes.
@@ -145,7 +153,7 @@ The backend seeds sample students only when the database is empty. The records u
 
 Student records are sensitive. Production deployments should use HTTPS, strong secrets stored outside source control, least-privilege access, database backups, retention/deletion policies, audit monitoring, rate limiting at the edge, and school-approved privacy procedures.
 
-The API also sends baseline browser security headers and disables caching for API responses. See [`SECURITY.md`](SECURITY.md) for the security policy.
+The API sends baseline browser security headers and disables caching for API responses. See [`SECURITY.md`](SECURITY.md) for the security policy.
 
 ## Docker
 
@@ -165,3 +173,7 @@ Persist the `discipline-data` volume. Supply `.env` through the deployment envir
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution workflow
 - [`SECURITY.md`](SECURITY.md) — vulnerability reporting and deployment expectations
 - [`CHANGELOG.md`](CHANGELOG.md) — release history
+
+## Project status
+
+Discipline Track is actively structured for maintainable school operations software: reproducible installs, automated quality gates, security checks, integration tests, coverage enforcement, and deployment documentation are part of the repository workflow.
