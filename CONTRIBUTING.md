@@ -1,4 +1,4 @@
-# Contributing to E-Card
+# Contributing to Discipline
 
 ## Development workflow
 
