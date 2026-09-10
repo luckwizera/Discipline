@@ -1,6 +1,6 @@
-# Discipline API
+# Discipline Track API
 
-The Discipline API powers school conduct records, student history, permission cards, reporting, and parent-notification workflows.
+The Discipline Track API powers school conduct records, student history, permission cards, reporting, and parent-notification workflows.
 
 All protected endpoints use the HTTP-only `ecard` authentication cookie created by login. The cookie name is retained for compatibility with existing deployments.
 
@@ -46,9 +46,11 @@ Appreciation increases the balance; sanction decreases it but never below zero. 
 
 `POST /api/notifications/test` — administration only. Requires SMTP configuration.
 
-## Health
+## Health and metrics
 
 `GET /api/health` is public and returns database connectivity status for monitoring.
+
+`GET /api/metrics` is restricted to authenticated administrators and returns operational request counters and uptime. It does not expose student records.
 
 ## Contract
 
